@@ -20,11 +20,7 @@ jobs:
         aws-region: us-east-1
 
     - name: Login to Amazon ECR
-      run: |
-        export AWS_REGION=us-east-1
-
-        aws ecr get-login-password --region $AWS_REGION \
-        | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+      uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build Docker image
       run: |
