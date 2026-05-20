@@ -20,8 +20,14 @@ jobs:
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+    # LOGIN ECR (VERSIÓN QUE FUNCIONA EN AWS ACADEMY)
     - name: Login to Amazon ECR
-      uses: aws-actions/amazon-ecr-login@v2
+      run: |
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} > token.txt
+
+        cat token.txt | docker login \
+          --username AWS \
+          --password-stdin ${{ secrets.ECR_REGISTRY }}
 
     - name: Build Docker image
       run: |
